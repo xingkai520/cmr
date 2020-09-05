@@ -95,6 +95,7 @@ $(async function () {
         })
         if (key != 1) {
             let info = {
+                userId,
                 name: $(".username").val(),
                 sex: $("input[type='radio']:eq(0)").prop("checked") * 1 ? 0 : 1,
                 email: $(".useremail").val(),
@@ -102,14 +103,23 @@ $(async function () {
                 departmentId: $(".userdepartment option").val(),
                 jobId: $(".userjob option").val(),
                 desc: $(".userdesc").val()
-            }
-            let res = await axios.post("/user/add", info)
-            console.log(res)
-            if (res.code == 0) {
-                alert("添加成功")
-                window.location.href = "./userlist.html"
+            } 
+            if (userId) {
+                let res = await axios.post("/user/update", info)
+                if (res.code == 0) {
+                    alert("修改成功")
+                    window.location.href = "./userlist.html"
+                } else {
+                    alert("修改失败，请稍后在试")
+                }
             } else {
-                alert("添加失败，请稍后在试")
+                let res = await axios.post("/user/add", info)
+                if (res.code == 0) {
+                    alert("添加成功")
+                    window.location.href = "./userlist.html"
+                } else {
+                    alert("添加失败，请稍后在试")
+                }
             }
         } else {
             alert("填写的数据不合规则，请检查！！！")

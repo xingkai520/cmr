@@ -103,4 +103,20 @@ $(function () {
             list();
         }
     })
+    // 重置密码
+    $("tbody").on("click", ".resetPwd", async function (e) {
+        e.preventDefault();
+        let r = confirm(`确认要重置"${$(this).parent().parent().children().eq(1).html()}"的密码吗`)
+        if (r) {
+            let res = await axios.post("/user/resetpassword", {
+                userId: $(this).attr("userId")
+            })
+            if (res.code == 0) {
+                alert(`${$(this).parent().parent().children().eq(1).html()}的密码已重置为1234567890`)
+                window.location.href = "userlist.html"
+            } else {
+                alert("请稍后再试")
+            }
+        }
+    })
 })

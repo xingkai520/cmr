@@ -18,19 +18,25 @@ $(async function () {
     $(".submit").click(async function () {
         let key = 0
         let info = {
+            departmentId,
             name: $("input").val(),
             desc: $("textarea").val()
         }
         $.each(info, function (i, v) {
             if (!v) {
-                key = 1;
+                key++;
             }
         })
-        if (key == 1) {
+        if (key >= 2) {
             return alert("必填项不能为空!!!")
         }
-        let res = await axios.post("/department/add", info)
-        alert("添加成功！！")
+        if (departmentId) {
+            let res = await axios.post("/department/update", info);
+            alert("修改成功！！")
+        } else {
+            let res = await axios.post("/department/add", info);
+            alert("添加成功！！")
+        }
         window.location.href = "./departmentlist.html"
     })
 })
